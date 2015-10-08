@@ -1,4 +1,3 @@
-//OM
 
 int main()
 {
