@@ -134,6 +134,9 @@ int main()
 	
 	printf("\n MAX CARDINALITY");
 	printJobs(maxCardinalityArray,size);
+	
+	free(jobArray);
+	free(maxCardinalityArray);
 
 
 }		
