@@ -83,38 +83,6 @@ if(beg<end)
 }
 
 
-job *getMaximumCardinalityJobs(job *jobs , int size)
-{
-if(size==0)
-	return NULL;
-job *maxCardinalityArray = (job*)malloc(sizeof(job)*size);
-
-
-// insert first job  always
-int i = 0 ; 
-maxCardinalityArray[0] = jobs[0];	
-int latest = jobs[0].dur;
-i++;
-int count =1;
-
-while(i<size)
-	{
-		//if(jobs[i].dur>=latdead)
-		//	{
-				maxCardinalityArray[count]= jobs[i];
-				//latdead =latdead jobs[i].dead;			
-				count++;
-		//	}
-
-
-
-		i++;
-	}
-
-
-return maxCardinalityArray;
-}
-
 void printJobs(job *array,int size)
 {
 if(array==NULL)
@@ -139,15 +107,15 @@ int main()
 	compare comp = compDead;
 	quickSort(jobArray, 0, size-1, comp);
 	printf("\n SORTED ACC TO dead TIME (INC)");
-	printJobs(jobArray,size);
-
-	job *maxCardinalityArray =getMaximumCardinalityJobs(jobArray,size);
+	
+	//job *maxCardinalityArray =getMaximumCardinalityJobs(jobArray,size);
 	
 	printf("\n MAX CARDINALITY");
-	printJobs(maxCardinalityArray,size);
-	
+//	printJobs(maxCardinalityArray,size);
+	printJobs(jobArray,size);
+
 	free(jobArray);
-	free(maxCardinalityArray);
+	//free(maxCardinalityArray);
 
 
 }		
