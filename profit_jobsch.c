@@ -5,9 +5,10 @@
 struct JOB
 {
 
+	int start;
+	int finish;
 	int id;
-	int dur;
-	int dead;
+	int profit;
 
 };
 typedef struct JOB job;
@@ -23,8 +24,9 @@ job *createJobs(int num)
 	int i =0 ; 
 	while(i<num)
 		{
-			jobArray[i].dur=rand()%100;
-			jobArray[i].dead =  jobArray[i].dur + rand()%100+1;		
+			jobArray[i].start=rand()%100;
+			jobArray[i].finish =  jobArray[i].start + rand()%100+1;		
+			jobArray[i].profit = rand()%20;			
 			jobArray[i].id = i;
 			i++;
 		}
@@ -32,9 +34,9 @@ job *createJobs(int num)
 	return jobArray;
 }
 
-int compDead( job a ,  job b)
+int compfinish( job a ,  job b)
 {
-if(a.dead<=b.dead)
+if(a.finish<=b.finish)
 	return 0;
 else 
 	return 1;
@@ -90,10 +92,10 @@ if(array==NULL)
 	return;
 int i =0 ; 
 
-		printf("\n\n\tID:\tdur,\tdead");
+		printf("\n\n\tID:\tstart,\tfinish");
 while(i<size)
 	{
-		printf(" \n\t(%d:\t%d,\t%d)" , array[i].id,array[i].dur,array[i].dead);
+		printf(" \n\t(%d:\t%d,\t%d, \t{P%d })" , array[i].id,array[i].start,array[i].finish ,array[i].profit);
 		i++;
 	}
 
@@ -102,6 +104,14 @@ while(i<size)
 
 int main()
 {
+	int size =15;
+	job *jobArray = createJobs(size);
+	printf("\n JOBS :");
+	printJobs(jobArray,size);
+	compare comp = compfinish;
+	quickSort(jobArray, 0, size-1, comp);
+	printf("\n SORTED ACC TO dead TIME (INC)");
+	printJobs(jobArray,size);
 
 
 }
