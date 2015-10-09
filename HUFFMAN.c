@@ -5,9 +5,12 @@
 struct chars{
 char val;
 int freq;
+struct chars *left;
+struct chars *right;
 };
 
 typedef struct chars letter;
+
 
 void heapify(letter *arr ,int i ,int size)
 {
@@ -59,15 +62,24 @@ void initLetters(letter *p,int size)
 
 
 	p[1].val='b';
-	p[1].freq=30;
+	p[1].freq=41;
 
 
 	p[2].val='c';
-	p[2].freq=20;
+	p[2].freq=19;
 
 
 	p[3].val='d';
-	p[3].freq=8;
+	p[3].freq=28;
+
+	int i =0; 
+	while(i<size)
+		{
+			p[i].left=NULL;
+			p[i].right=NULL;
+			i++;
+
+		}
 
 	//p[4].val='i';
 	//p[4].freq=16;
@@ -121,6 +133,114 @@ while(parent>=0)
 return Array;
 }
 
+letter *extractMin(letter **Array,int *size)
+{
+
+	if(*size==0)
+		{
+		printf("\nHEAP UNDERFLOW");
+		return NULL;
+		}
+	letter *min = (letter*)malloc(sizeof(letter));
+	min->freq = Array[0][0].freq;
+	min->val = Array[0][0].val;
+	min->left = Array[0][0].left;
+	min->right=Array[0][0].right;
+	
+	Array[0][0] =Array[0][*size-1];
+
+	*size = *size -1;
+	heapify(Array[0],0,*size);
+
+	*Array = (letter*)realloc(*Array, sizeof(letter)*(*size));	
+
+	return min;
+}
+
+
+letter *createNode(int freq, char val)
+{
+	letter *node = (letter*)malloc(sizeof(letter));
+	node->freq=freq;
+	node->val=val;
+	node->left=NULL;
+	node->right=NULL;
+	return node;
+
+}
+
+void printTree(letter *tree)
+{
+
+if(tree)
+	{
+		printTree(tree->left);
+		printf("(%c %d) ,  " ,tree->val  , tree->freq);
+		printTree(tree->right);
+	}
+
+
+}
+
+
+void printHuffmanCodes(letter *tree, int level, int arr[])
+{
+	if(tree==NULL)
+		return;
+
+	if(!(tree->left || tree->right))
+		{
+
+			int i=0;
+			printf("\n %c ", tree->val);
+			while(tree->val!='*' && i<level )
+			{			//LEAF print it
+				printf( " %d ",arr[i]);
+				i++;			
+			}
+			
+		}
+
+	if(tree->left )
+		{
+			arr[level]=0;
+			printHuffmanCodes(tree->left,level+1,arr);				
+		}
+
+
+
+	if((tree->right))
+		{
+			arr[level]=1;
+			printHuffmanCodes(tree->right,level+1,arr);		
+		}
+
+}
+
+void createHuffManCode(letter *letterArray , int size)
+{
+
+	int *arr =(int*)malloc(sizeof(int)*size);
+int i = 0 ;
+while(1)
+	{
+		if(size == 1)
+			break ;
+
+		letter *min1 = extractMin(&letterArray,&size);
+		letter *min2= extractMin(&letterArray,&size);
+		letter *newNode = createNode(min1->freq+min2->freq,'*');
+		newNode->left= min1;
+		newNode->right = min2;
+		letterArray = insertInHeap(letterArray,newNode[0],&size);
+	}
+	printf("\nTREE  INORDER\n");
+	letter *root = extractMin(&letterArray, &size);
+	printTree(root);
+	printf("\nCODES\n");
+	printHuffmanCodes(root,0,arr);
+}
+
 
 
 int main()
@@ -131,7 +251,7 @@ int main()
 	printArray(letterArray,numChar);
 	buildMinHeap(letterArray,numChar);
 	printArray(letterArray,numChar);
-	letter object ={'h',10};
+	/*letter object ={'h',10};
 	letterArray=insertInHeap(letterArray,object,&numChar);
 
 	 letter object2 ={'m',14};
@@ -140,6 +260,34 @@ int main()
 
 	letter object3 ={'n',100};
 	letterArray=insertInHeap(letterArray,object3,&numChar);
+
+	letter *min = extractMin(&letterArray,&numChar);
+	printf("\nMIN : %c %d  ... \n" ,min->val,min->freq);	 
+		printArray(letterArray,numChar);
+
+	min = extractMin(&letterArray,&numChar);
+	printf("\nMIN : %c %d  ... \n" ,min->val,min->freq);	 
+
+	printArray(letterArray,numChar);
+
+	min = extractMin(&letterArray,&numChar);
+	printf("\nMIN : %c %d  ... \n" ,min->val,min->freq);	 
+	printArray(letterArray,numChar);
+
+	min = extractMin(&letterArray,&numChar);
+	if (min!=NULL)
+		printf("\nMIN : %c %d  ... \n" ,min->val,min->freq);	 
+
+	printArray(letterArray,numChar);
+
+	min = extractMin(&letterArray,&numChar);
+	if (min!=NULL)
+		printf("\nMIN : %c %d  ... \n" ,min->val,min->freq);	 
+	
+
+	*/
+
 	printArray(letterArray,numChar);
 	
+	createHuffManCode(letterArray,numChar);
 }
