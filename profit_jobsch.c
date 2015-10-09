@@ -102,16 +102,62 @@ while(i<size)
 }
 
 
+int getRecentNonOverlappingIndex(job *array,int curIndex)
+{
+int i = curIndex -1;
+while(i>=0)
+	{
+		if(array[i].finish<=array[curIndex].start)
+			return i;
+		i--;
+	}
+return -1;
+}
+
+int max(int a , int b)
+{
+return (a>b)?a:b;
+}
+
+int profitScheduling(job *array  ,int right , int *DP)
+{
+if(DP[right]!=-1000)
+	return DP[right];
+else
+   {
+	int nonOverlapIndex =getRecentNonOverlappingIndex(array,right);
+	if(nonOverlapIndex!=-1)
+		DP[right]= max(array[right].profit + profitScheduling(array,nonOverlapIndex,DP) , profitScheduling( array, right-1,DP)) ;
+	else
+		DP[right]= max(array[right].profit, profitScheduling( array, right-1,DP)) ;
+	
+	return DP[right];		
+   }
+}
+
+
+
 int main()
 {
-	int size =15;
+	int size =4;
 	job *jobArray = createJobs(size);
 	printf("\n JOBS :");
 	printJobs(jobArray,size);
+	
 	compare comp = compfinish;
 	quickSort(jobArray, 0, size-1, comp);
+
 	printf("\n SORTED ACC TO dead TIME (INC)");
 	printJobs(jobArray,size);
 
-
+	int *DP =(int*)malloc(sizeof(int)*size);
+//	memset(DP,-1,sizeof(int)*size);
+	int i =0 ; 
+	while(i<size)
+	{
+		DP[i] = -1000;
+		i++;	
+	}
+	DP[0]=jobArray[0].profit;
+	printf("\n%d ", profitScheduling(jobArray,size-1,DP));
 }
