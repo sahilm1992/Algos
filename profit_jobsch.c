@@ -10,7 +10,7 @@ struct JOB
 	int id;
 	int profit;
 
-};
+}; 
 typedef struct JOB job;
 
 typedef int (*compare)(job a , job b);
