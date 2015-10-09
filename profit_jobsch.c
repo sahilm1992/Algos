@@ -135,6 +135,24 @@ else
    }
 }
 
+int profit_Sch_iter(job*array,int len, int *DP)
+{
+
+int i =1;
+for(i=1;i<=len;i++)
+	{
+		int nonOverlapIndex =getRecentNonOverlappingIndex(array,i);
+			if(nonOverlapIndex!=-1)
+				DP[i]= max( array[i].profit + DP[nonOverlapIndex] , DP[i-1]);
+			else
+				DP[i] =max(array[i].profit ,DP[i-1]);
+
+	}
+
+
+return DP[len];
+}
+
 
 
 int main()
@@ -144,12 +162,6 @@ int main()
 	printf("\n JOBS :");
 	printJobs(jobArray,size);
 	
-	compare comp = compfinish;
-	quickSort(jobArray, 0, size-1, comp);
-
-	printf("\n SORTED ACC TO dead TIME (INC)");
-	printJobs(jobArray,size);
-
 	int *DP =(int*)malloc(sizeof(int)*size);
 //	memset(DP,-1,sizeof(int)*size);
 	int i =0 ; 
@@ -157,7 +169,24 @@ int main()
 	{
 		DP[i] = -1000;
 		i++;	
-	}
+	}compare comp = compfinish;
+	quickSort(jobArray, 0, size-1, comp);
+
+	printf("\n SORTED ACC TO dead TIME (INC)");
+	printJobs(jobArray,size);
+
+	
 	DP[0]=jobArray[0].profit;
-	printf("\n%d ", profitScheduling(jobArray,size-1,DP));
+	printf("\n \n REC %d ", profitScheduling(jobArray,size-1,DP));
+
+	i =0 ; 
+	while(i<size)
+	{
+		DP[i] = -1000;
+		i++;	
+	}
+
+	DP[0]=jobArray[0].profit;
+	printf("\n ITER %d \n", profit_Sch_iter(jobArray,size-1, DP));
+	
 }
