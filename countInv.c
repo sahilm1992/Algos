@@ -1,4 +1,14 @@
 //
+// to count number of inversions in a 1 D Array.
+// i, j is in an inversion if A[i] >A[j] for i<j.
+
+// ARRAY 8 2 1 4 5 
+/*
+ELEMENT 8 ,2 is an inversion.
+similary 2,1
+and 8,5 also etc
+
+*/
 
 #include<stdlib.h>
 int merge(int *arr,int beg , int  mid , int end)
