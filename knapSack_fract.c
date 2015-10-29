@@ -1,4 +1,4 @@
-//
+//Program : knapsack Fractional 
 
 #include<stdlib.h>
 #include<time.h>
