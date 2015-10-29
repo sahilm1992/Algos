@@ -1,4 +1,5 @@
 //WEIGHTED JOB SCHEDULING
+// maximize profit -- schedule jobs to maximize net profit
 
 #include<time.h>
 #include<stdlib.h>
