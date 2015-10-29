@@ -1,4 +1,4 @@
-//huffman
+//Huffman coding to output prefix codes of optimal length
 
 #include<stdlib.h>
 #include<time.h>
