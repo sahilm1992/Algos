@@ -1,4 +1,5 @@
-
+//
+// Program to Schedule jobs to minimize the maximum lateness
 #include<time.h>
 #include<stdlib.h>
 struct JOB
