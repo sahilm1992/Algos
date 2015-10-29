@@ -1,6 +1,6 @@
 //
 
-
+// Program to solve 0-1 Knapsack problem using Dynamic Programming
 #include<stdlib.h>
 #include<time.h>
 
