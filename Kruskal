@@ -1,0 +1,86 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+ struct edges{
+        
+        int s , d, wt;
+        
+    };
+    
+bool compare(edges &a , edges&b){
+    
+    return a.wt< b.wt;
+}
+
+int find(int a , vector<int> &parent){
+    
+    if(parent[a]==-1){
+        return a;
+    }
+    else
+        return find(parent[a],parent);
+    
+    
+}
+void unity (int a, int b, vector<int> &parent){
+    
+    int pa = find(a,parent);
+    int pb = find(b,parent);
+    parent[pa]=pb;
+    
+}
+
+int main() {
+    
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
+    
+   
+    
+    int m, n ; cin>>n>>m;
+    vector<edges>edgeVec(m);
+    
+    for(int i = 0 ; i <m;i++){
+       
+        int s , d , wt;
+        cin>>s>>d>>wt;
+        edgeVec[i].s = s; 
+        edgeVec[i].d = d; 
+        edgeVec[i].wt = wt; 
+        
+        
+        
+    }
+    
+    sort(edgeVec.begin(),edgeVec.end(),compare);
+    int e =0 ; 
+    vector<int>parent(n,-1);
+    vector<edges>outputVec;
+    int weightResult =0 ; 
+    while(e <edgeVec.size()){
+        int s = edgeVec[e].s;
+        int d= edgeVec[e].d;
+        
+        if(find(s,parent) == find(d,parent))
+               {
+                     e++; continue;
+                }        
+        
+        outputVec.push_back(edgeVec[e]);
+        weightResult+= edgeVec[e].wt;
+        unity(s,d,parent);
+        
+        
+        
+        
+        e++;
+    }
+    
+    
+    int temp ; cin>>temp;
+    cout<<weightResult;
+    return 0;
+}
